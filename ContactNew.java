@@ -114,7 +114,7 @@ class ContactNew implements ActionListener
             }
             else if(number.length() != 10 )
             {
-                JOptionPane.showMessageDialog(contactNew, "Incorrect Mobile Number", "Warning",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(contactNew, "Invalid Mobile Number", "Warning",JOptionPane.ERROR_MESSAGE);
             }
             else if(address.length() < 3 )
             {
@@ -122,12 +122,29 @@ class ContactNew implements ActionListener
             }
             else
             {
-                JOptionPane.showMessageDialog(contactNew, "Your Contact Was Successfully Saved", "Warning",JOptionPane.INFORMATION_MESSAGE);
+                try
+                {
+                    String type[]={"Casual","Family","Friend","Relative"};
+                    File f=new File("Contact.csv");
+                    FileWriter fw=new FileWriter(f,true);
+                    BufferedWriter bw=new BufferedWriter(fw);
+                    PrintWriter pw=new PrintWriter(bw);
+
+                    
+                    pw.println(name+","+number+","+address+","+type[category]);
+                    pw.close();
+                    bw.close();
+                    fw.close();
+                }
+                catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(contactNew, "Error Occured while saving your contact", "Error",JOptionPane.ERROR_MESSAGE);
+                }
                 txtName.setText("");
                 txtMobile.setText("");
                 txtAddress.setText("");
+                JOptionPane.showMessageDialog(contactNew, "Your Contact Was Successfully Saved", "Success",JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
-
 }
